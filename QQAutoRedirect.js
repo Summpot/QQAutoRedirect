@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         QQ auto redirect
 // @namespace    http://tampermonkey.net/
-// @version      1.1
+// @version      1.2
 // @description  当QQ点击链接跳转到外部浏览器，却被腾讯拦截时，脚本会自动跳转到目标网页
 // @author       Poker
 // @match        http*://c.pc.qq.com/*
@@ -18,12 +18,13 @@
     }
 
     let target = getParam("pfurl") || getParam("url");
+    if (!target) return;
 
-    if (target) {
-        try {
-            target = decodeURIComponent(target);
-        } catch (e) {}
-
-        window.location.replace(target);
+    try { target = decodeURIComponent(target); } catch (e) {}
+    
+    if (target.endsWith('/') && !target.match(/[?#]/)) {
+        target = target.slice(0, -1);
     }
+
+    window.location.replace(target);
 })();
