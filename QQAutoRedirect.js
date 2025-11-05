@@ -22,7 +22,7 @@
 
     try { target = decodeURIComponent(target); } catch (e) {}
     
-    if (target.endsWith('/') && !target.match(/[?#]/)) {
+    if (target.endsWith('/')) {
         target = target.slice(0, -1);
     }
 
